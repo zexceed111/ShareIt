@@ -20,8 +20,7 @@ public class ItemRequestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemRequestDto create(@Valid @RequestBody ItemRequestDto itemRequestDto,
-                                        @RequestHeader("X-User-Id") Long userId) {
+    public ItemRequestDto create(@Valid @RequestBody ItemRequestDto itemRequestDto, @RequestHeader("X-User-Id") Long userId) {
         log.info("Получен запрос на создание запроса на предмет от пользователя {}", userId);
         return itemRequestService.create(itemRequestDto);
     }
@@ -45,8 +44,7 @@ public class ItemRequestController {
     }
 
     @PatchMapping("/{requestId}")
-    public ItemRequestDto update(@PathVariable("requestId") Long requestId,
-                                        @Valid @RequestBody ItemRequestDto updatedRequest) {
+    public ItemRequestDto update(@PathVariable("requestId") Long requestId, @Valid @RequestBody ItemRequestDto updatedRequest) {
         log.info("Получен запрос на обновление запроса на предмет с ID {} ", requestId);
         return itemRequestService.update(requestId, updatedRequest);
     }

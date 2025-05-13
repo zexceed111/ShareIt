@@ -19,8 +19,7 @@ public class BookingController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookingDto create(@Valid @RequestBody BookingDto bookingDto,
-                                    @RequestHeader("X-User-Id") Long userId) {
+    public BookingDto create(@Valid @RequestBody BookingDto bookingDto, @RequestHeader("X-User-Id") Long userId) {
         log.info("Получен запрос на создание бронирования от пользователя {}", userId);
         return bookingService.create(bookingDto, userId);
     }
@@ -44,8 +43,7 @@ public class BookingController {
     }
 
     @PatchMapping("/{bookingId}/status")
-    public BookingDto updateStatus(@PathVariable("bookingId") Long bookingId,
-                                          @RequestParam("status") BookingStatus newStatus) {
+    public BookingDto updateStatus(@PathVariable("bookingId") Long bookingId, @RequestParam("status") BookingStatus newStatus) {
         log.info("Получен запрос на обновление статуса бронирования {} до {}", bookingId, newStatus);
         return bookingService.updateBookingStatus(bookingId, newStatus);
     }
@@ -58,9 +56,7 @@ public class BookingController {
     }
 
     @GetMapping("/check-availability")
-    public boolean checkDateOverlap(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-                                    @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime  end,
-                                    @RequestParam("itemId") Long itemId) {
+    public boolean checkDateOverlap(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start, @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end, @RequestParam("itemId") Long itemId) {
         log.info("Проверка доступности предмета {} в период с {} по {}", itemId, start, end);
         return bookingService.checkDateOverlap(start, end, itemId);
     }

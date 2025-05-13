@@ -35,16 +35,10 @@ public class ItemRequestRepository {
     }
 
     public List<ItemRequest> findByRequestor(User requestor) {
-        return requests.values()
-                .stream()
-                .filter(r -> r.getRequestor().equals(requestor))
-                .toList();
+        return requests.values().stream().filter(r -> r.getRequestor().equals(requestor)).toList();
     }
 
     public List<ItemRequest> findByDescriptionContaining(String text) {
-        return requests.values()
-                .stream()
-                .filter(r -> r.getDescription().contains(text))
-                .toList();
+        return requests.values().stream().filter(r -> r.getDescription().contains(text)).toList();
     }
 }

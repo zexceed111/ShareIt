@@ -35,20 +35,14 @@ public class BookingRepository {
     }
 
     public List<Booking> findByItemId(Long itemId) {
-        return bookings.values().stream()
-                .filter(b -> itemId.equals(b.getItem().getId()))
-                .collect(Collectors.toList());
+        return bookings.values().stream().filter(b -> itemId.equals(b.getItem().getId())).collect(Collectors.toList());
     }
 
     public List<Booking> findByBookerId(Long bookerId) {
-        return bookings.values().stream()
-                .filter(b -> b.getBooker().getId().equals(bookerId))
-                .collect(Collectors.toList());
+        return bookings.values().stream().filter(b -> b.getBooker().getId().equals(bookerId)).collect(Collectors.toList());
     }
 
     public List<Booking> findByStatus(BookingStatus status) {
-        return bookings.values().stream()
-                .filter(b -> b.getStatus().equals(status))
-                .collect(Collectors.toList());
+        return bookings.values().stream().filter(b -> b.getStatus().equals(status)).collect(Collectors.toList());
     }
 }

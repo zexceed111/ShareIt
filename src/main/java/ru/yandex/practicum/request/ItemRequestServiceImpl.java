@@ -16,9 +16,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     private final ItemRequestMapper itemRequestMapper;
 
     @Autowired
-    public ItemRequestServiceImpl(ItemRequestRepository itemRequestRepository,
-                                  UserRepository userRepository,
-                                  ItemRequestMapper itemRequestMapper) {
+    public ItemRequestServiceImpl(ItemRequestRepository itemRequestRepository, UserRepository userRepository, ItemRequestMapper itemRequestMapper) {
         this.itemRequestRepository = itemRequestRepository;
         this.userRepository = userRepository;
         this.itemRequestMapper = itemRequestMapper;
@@ -46,18 +44,12 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         if (requestor == null) {
             throw new NotFoundException("Пользователь не найден");
         }
-        return itemRequestRepository.findByRequestor(requestor)
-                .stream()
-                .map(itemRequestMapper::toRequestDto)
-                .collect(Collectors.toList());
+        return itemRequestRepository.findByRequestor(requestor).stream().map(itemRequestMapper::toRequestDto).collect(Collectors.toList());
     }
 
     @Override
     public List<ItemRequestDto> searchRequests(String text) {
-        return itemRequestRepository.findByDescriptionContaining(text)
-                .stream()
-                .map(itemRequestMapper::toRequestDto)
-                .collect(Collectors.toList());
+        return itemRequestRepository.findByDescriptionContaining(text).stream().map(itemRequestMapper::toRequestDto).collect(Collectors.toList());
     }
 
     @Override

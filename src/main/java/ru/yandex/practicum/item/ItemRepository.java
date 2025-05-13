@@ -43,10 +43,7 @@ public class ItemRepository {
     }
 
     public List<Item> findByOwnerId(Long ownerId) {
-        return items.values()
-                .stream()
-                .filter(i -> i.getOwner().getId().equals(ownerId))
-                .collect(Collectors.toList());
+        return items.values().stream().filter(i -> i.getOwner().getId().equals(ownerId)).collect(Collectors.toList());
     }
 
     public List<Item> search(String text) {
@@ -54,11 +51,6 @@ public class ItemRepository {
             return Collections.emptyList();
         }
 
-        return items.values().stream()
-                .filter(i -> i != null &&
-                        i.isAvailable() &&
-                        (StringUtils.isNotEmpty(i.getName()) && i.getName().toLowerCase().contains(text.toLowerCase()) ||
-                                StringUtils.isNotEmpty(i.getDescription()) && i.getDescription().toLowerCase().contains(text.toLowerCase())))
-                .collect(Collectors.toList());
+        return items.values().stream().filter(i -> i != null && i.isAvailable() && (StringUtils.isNotEmpty(i.getName()) && i.getName().toLowerCase().contains(text.toLowerCase()) || StringUtils.isNotEmpty(i.getDescription()) && i.getDescription().toLowerCase().contains(text.toLowerCase()))).collect(Collectors.toList());
     }
 }

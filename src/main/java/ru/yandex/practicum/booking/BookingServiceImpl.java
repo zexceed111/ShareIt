@@ -23,11 +23,7 @@ public class BookingServiceImpl implements BookingService {
     private final UserService userService;
 
     @Autowired
-    public BookingServiceImpl(BookingRepository bookingRepository,
-                              ItemRepository itemRepository,
-                              BookingMapper bookingMapper,
-                              UserMapper userMapper,
-                              UserService userService) {
+    public BookingServiceImpl(BookingRepository bookingRepository, ItemRepository itemRepository, BookingMapper bookingMapper, UserMapper userMapper, UserService userService) {
         this.bookingRepository = bookingRepository;
         this.itemRepository = itemRepository;
         this.bookingMapper = bookingMapper;
@@ -73,18 +69,12 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getUserBookings(Long userId) {
-        return bookingRepository.findByBookerId(userId)
-                .stream()
-                .map(bookingMapper::toBookingDto)
-                .collect(Collectors.toList());
+        return bookingRepository.findByBookerId(userId).stream().map(bookingMapper::toBookingDto).collect(Collectors.toList());
     }
 
     @Override
     public List<BookingDto> getItemBookings(Long itemId) {
-        return bookingRepository.findByItemId(itemId)
-                .stream()
-                .map(bookingMapper::toBookingDto)
-                .collect(Collectors.toList());
+        return bookingRepository.findByItemId(itemId).stream().map(bookingMapper::toBookingDto).collect(Collectors.toList());
     }
 
     @Override
@@ -111,11 +101,7 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> existingBookings = bookingRepository.findByItemId(itemId);
 
         for (Booking existingBooking : existingBookings) {
-            if (datesOverlap(
-                    start,
-                    end,
-                    existingBooking.getStartDate(),
-                    existingBooking.getEndDate())) {
+            if (datesOverlap(start, end, existingBooking.getStartDate(), existingBooking.getEndDate())) {
                 return true;
             }
         }

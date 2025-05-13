@@ -21,9 +21,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemMapper itemMapper;
     private final Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
 
-    public ItemServiceImpl(ItemRepository itemRepository,
-                           UserRepository userRepository,
-                           ItemMapper itemMapper) {
+    public ItemServiceImpl(ItemRepository itemRepository, UserRepository userRepository, ItemMapper itemMapper) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.itemMapper = itemMapper;
@@ -89,9 +87,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDto> getAllItemsByOwner(Long ownerId) {
         List<Item> items = itemRepository.findByOwnerId(ownerId);
-        return items.stream()
-                .map(itemMapper::toItemDto)
-                .collect(Collectors.toList());
+        return items.stream().map(itemMapper::toItemDto).collect(Collectors.toList());
     }
 
     @Override
@@ -101,8 +97,6 @@ public class ItemServiceImpl implements ItemService {
         }
 
         List<Item> foundItems = itemRepository.search(searchText);
-        return foundItems.stream()
-                .map(itemMapper::toItemDto)
-                .collect(Collectors.toList());
+        return foundItems.stream().map(itemMapper::toItemDto).collect(Collectors.toList());
     }
 }

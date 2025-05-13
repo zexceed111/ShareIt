@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto  create(UserDto userDto) {
+    public UserDto create(UserDto userDto) {
         validateUserUniqueness(userDto.getName(), userDto.getEmail());
 
         if (userDto.getEmail() == null || userDto.getEmail().isEmpty()) {
@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Пользователь не найден");
         }
 
-        if (!Objects.equals(user.getName(), userDto.getName()) ||
-                !Objects.equals(user.getEmail(), userDto.getEmail())) {
+        if (!Objects.equals(user.getName(), userDto.getName()) || !Objects.equals(user.getEmail(), userDto.getEmail())) {
             validateUserUniqueness(userDto.getName(), userDto.getEmail());
         }
 
@@ -60,10 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(userMapper::toUserDto)
-                .collect(Collectors.toList());
+        return userRepository.findAll().stream().map(userMapper::toUserDto).collect(Collectors.toList());
     }
 
     @Override
