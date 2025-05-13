@@ -14,7 +14,6 @@ import java.util.List;
 public class ItemRequestController {
     private final ItemRequestService itemRequestService;
 
-    @Autowired
     public ItemRequestController(ItemRequestService itemRequestService) {
         this.itemRequestService = itemRequestService;
     }
