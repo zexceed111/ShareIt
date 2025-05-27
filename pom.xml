@@ -51,6 +51,14 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- queryDSL -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <classifier>jakarta</classifier>
+            <version>5.1.0</version>
+        </dependency>
+
         <!-- База данных H2 -->
         <dependency>
             <groupId>com.h2database</groupId>
@@ -58,6 +66,15 @@
             <version>2.1.210</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- База данных postgresSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+
 
         <!-- Logbook для логирования запросов -->
         <dependency>
