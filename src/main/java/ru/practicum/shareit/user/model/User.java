@@ -28,7 +28,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = {UpdateValidate.class})
-    long id;
+    private long id;
 
     @Column(name = "name")
     String name;

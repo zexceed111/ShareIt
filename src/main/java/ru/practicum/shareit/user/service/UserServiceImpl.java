@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor = DuplicatedDataException.class)
+    @Transactional
     public UserDto add(NewUserRequest request) throws DuplicatedDataException {
         log.info("Началось создание пользователя {}", request);
         User user = UserDtoMapper.mapToUserAdd(request);

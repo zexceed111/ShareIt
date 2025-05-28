@@ -2,6 +2,9 @@ package ru.practicum.shareit.booking.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -11,9 +14,6 @@ import ru.practicum.shareit.booking.service.BookingService;
 
 import java.util.List;
 
-/**
- * TODO Sprint add-bookings.
- */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/bookings")
@@ -30,35 +30,45 @@ public class BookingController {
     @PatchMapping("/{bookingId}")
     @ResponseStatus(HttpStatus.OK)
     public BookingDto updateStatus(@RequestHeader("X-Sharer-User-Id") long userId,
-                                   @PathVariable("bookingId") long bookingId,
+                                   @PathVariable long bookingId,
                                    @RequestParam boolean approved) {
         return bookingService.updateStatus(userId, bookingId, approved);
-    }
-
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<BookingDto> getAll() {
-        return bookingService.findAll();
     }
 
     @GetMapping("/{bookingId}")
     @ResponseStatus(HttpStatus.OK)
     public BookingDto findById(@RequestHeader("X-Sharer-User-Id") long userId,
-                               @PathVariable("bookingId") long bookingId) {
+                               @PathVariable long bookingId) {
         return bookingService.findById(userId, bookingId);
     }
 
-    @GetMapping("?state={state}")
+    /**
+     * GET /bookings?state=ALL&page=0&size=20&sort=start,desc
+     */
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookingDto> findByBookerId(@RequestHeader("X-Sharer-User-Id") long userId,
-                                           @RequestParam(defaultValue = "ALL") State state) {
-        return bookingService.findByBookerId(userId, state);
+    public List<BookingDto> findByBooker(@RequestHeader("X-Sharer-User-Id") long userId,
+                                         @RequestParam(defaultValue = "ALL") State state,
+                                         @PageableDefault(size = 20,
+                                                 sort = "start",
+                                                 direction = Sort.Direction.DESC)
+                                         Pageable pageable) {
+        return bookingService.findByBooker(userId, state, pageable)
+                .getContent();
     }
 
-    @GetMapping("/{owner}?state={state}")
-    @RequestMapping(path = "/bookings/{owner}?state={state}", method = RequestMethod.GET)
-    public List<BookingDto> findByOwnerId(@RequestHeader("X-Sharer-User-Id") long userId,
-                                          @RequestParam(defaultValue = "ALL") State state) {
-        return bookingService.findByOwnerId(userId, state);
+    /**
+     * GET /bookings/owner?state=ALL&page=0&size=20&sort=start,desc
+     */
+    @GetMapping("/owner")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookingDto> findByOwner(@RequestHeader("X-Sharer-User-Id") long userId,
+                                        @RequestParam(defaultValue = "ALL") State state,
+                                        @PageableDefault(size = 20,
+                                                sort = "start",
+                                                direction = Sort.Direction.DESC)
+                                        Pageable pageable) {
+        return bookingService.findByOwner(userId, state, pageable)
+                .getContent();
     }
 }

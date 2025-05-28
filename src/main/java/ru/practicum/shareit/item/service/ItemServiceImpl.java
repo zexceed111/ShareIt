@@ -43,7 +43,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
     public ItemDtoBooking getById(long itemId) {
         log.info("Начинаем получение предмета с id {}", itemId);
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет не найден"));
@@ -69,7 +68,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto add(long userId, NewItemRequest request) {
         log.info("Начинаем создание предмета {}", request);
         User owner = UserDtoMapper.mapToUser(userService.getById(userId));
-        log.info("Определен владелец предмета {}: {}", request, owner);
+        log.debug("Определен владелец предмета {}: {}", request, owner);
         Item item = ItemDtoMapper.mapToItemAdd(request, owner);
         itemRepository.save(item);
         log.info("Создание предмета {} прошло успешно, предмету присвоен id = {}", item, item.getId());
@@ -94,7 +93,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDto> searchItems(String text) {
         List<ItemDto> search = new ArrayList<>();
-        if (text.isEmpty() || text.isBlank()) {
+        if (text.isEmpty() || text.isBlank() || text == null) {
             log.info("Введен пустой поисковый запрос");
             return search;
         }
