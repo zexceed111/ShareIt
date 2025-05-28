@@ -13,7 +13,6 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    // старые методы для pageable...
     Page<Booking> findByBooker_Id(long bookerId, Pageable pageable);
 
     Page<Booking> findByItemOwner_Id(long ownerId, Pageable pageable);
@@ -42,16 +41,4 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     // для addComment() — одно бронирование по item и booker
     Booking findByItem_idAndBooker_id(long item_id, long booker_id);
 
-    // ↓↓↓ НОВЫЕ МЕТОДЫ ↓↓↓
-
-    // возвращает список бронирований для item + статус
-    List<Booking> findByItem_IdAndStatus(long itemId, Status status);
-
-    // находит одно бронирование по item и booker
-    Booking findByItem_IdAndBooker_Id(long itemId, long bookerId);
-
-    // (опционально) для «последнего» и «следующего»:
-    Booking findTopByItem_IdAndStatusAndEndBeforeOrderByEndDesc(long itemId, Status status, LocalDateTime now);
-
-    Booking findTopByItem_IdAndStatusAndStartAfterOrderByStartAsc(long itemId, Status status, LocalDateTime now);
 }
