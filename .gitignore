@@ -41,3 +41,15 @@ build/
 .project
 .settings/
 target/
+
+# Maven / Gradle
+**/target/
+**/build/
+
+# Бинарники
+*.class
+*.jar
+
+# IntelliJ
+.idea/
+*.iml
