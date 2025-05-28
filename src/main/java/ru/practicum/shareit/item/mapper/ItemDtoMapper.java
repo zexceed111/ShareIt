@@ -19,23 +19,11 @@ import java.util.List;
 public final class ItemDtoMapper {
 
     public static Item mapToItemAdd(NewItemRequest request, User owner) {
-        return Item.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .available(request.getAvailable())
-                .owner(owner)
-                .request(request.getRequest())
-                .build();
+        return Item.builder().name(request.getName()).description(request.getDescription()).available(request.getAvailable()).owner(owner).request(request.getRequest()).build();
     }
 
     public static ItemDto mapToDto(Item item) {
-        return ItemDto.builder()
-                .id(item.getId())
-                .name(item.getName())
-                .description(item.getDescription())
-                .available(item.getAvailable())
-                .owner(UserDtoMapper.mapToUserDto(item.getOwner()))
-                .build();
+        return ItemDto.builder().id(item.getId()).name(item.getName()).description(item.getDescription()).available(item.getAvailable()).owner(UserDtoMapper.mapToUserDto(item.getOwner())).build();
     }
 
     public static Item mapToDtoUpdate(Item item, UpdateItemRequest request) {
@@ -52,13 +40,7 @@ public final class ItemDtoMapper {
     }
 
     public static ItemDtoBooking mapToItemDtoBooking(Item item, List<Booking> bookings, List<Comment> comments) {
-        ItemDtoBooking itemDtoBooking = ItemDtoBooking.builder()
-                .id(item.getId())
-                .name(item.getName())
-                .description(item.getDescription())
-                .available(item.getAvailable())
-                .comments(comments.stream().map(CommentDtoMapper::mapToDto).toList())
-                .build();
+        ItemDtoBooking itemDtoBooking = ItemDtoBooking.builder().id(item.getId()).name(item.getName()).description(item.getDescription()).available(item.getAvailable()).comments(comments.stream().map(CommentDtoMapper::mapToDto).toList()).build();
         if (!bookings.isEmpty()) {
             itemDtoBooking.setLastBooking(BookingDtoMapper.mapToBookingDto(bookings.getLast()));
             if (bookings.size() > 1) {

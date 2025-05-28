@@ -14,21 +14,10 @@ import java.time.Instant;
 public final class CommentDtoMapper {
 
     public static Comment mapToCommentAdd(NewCommentRequest request, Item item, User author) {
-        return Comment.builder()
-                .text(request.getText())
-                .created(Instant.now())
-                .item(item)
-                .author(author)
-                .build();
+        return Comment.builder().text(request.getText()).created(Instant.now()).item(item).author(author).build();
     }
 
     public static CommentDto mapToDto(Comment comment) {
-        return CommentDto.builder()
-                .id(comment.getId())
-                .text(comment.getText())
-                .authorName(comment.getAuthor().getName())
-                .item(comment.getItem())
-                .created(comment.getCreated())
-                .build();
+        return CommentDto.builder().id(comment.getId()).text(comment.getText()).authorName(comment.getAuthor().getName()).item(comment.getItem()).created(comment.getCreated()).build();
     }
 }

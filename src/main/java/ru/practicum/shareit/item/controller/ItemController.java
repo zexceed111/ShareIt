@@ -22,9 +22,7 @@ public class ItemController {
 
     @PostMapping("/{itemId}/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto addComment(@RequestHeader("X-Sharer-User-Id") long userId,
-                                 @PathVariable("itemId") long itemId,
-                                 @RequestBody @Validated(UpdateValidate.class) NewCommentRequest request) {
+    public CommentDto addComment(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable("itemId") long itemId, @RequestBody @Validated(UpdateValidate.class) NewCommentRequest request) {
         return itemService.addComment(request, itemId, userId);
     }
 
@@ -48,15 +46,12 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") long userId,
-                              @RequestBody @Valid NewItemRequest request) {
+    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") long userId, @RequestBody @Valid NewItemRequest request) {
         return itemService.add(userId, request);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") long userId,
-                              @PathVariable("itemId") long itemId,
-                              @RequestBody @Validated(UpdateValidate.class) UpdateItemRequest request) {
+    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable("itemId") long itemId, @RequestBody @Validated(UpdateValidate.class) UpdateItemRequest request) {
         return itemService.update(userId, itemId, request);
     }
 

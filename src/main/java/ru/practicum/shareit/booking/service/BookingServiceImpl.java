@@ -31,9 +31,7 @@ public class BookingServiceImpl implements BookingService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
-    public BookingServiceImpl(BookingRepository bookingRepository,
-                              ItemRepository itemRepository,
-                              UserRepository userRepository) {
+    public BookingServiceImpl(BookingRepository bookingRepository, ItemRepository itemRepository, UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
@@ -43,10 +41,8 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingDto add(NewBookingRequest request, long bookerId) {
         log.info("Создаём бронирование, itemId={}, bookerId={}", request.getItemId(), bookerId);
-        User booker = userRepository.findById(bookerId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
-        Item item = itemRepository.findById(request.getItemId())
-                .orElseThrow(() -> new NotFoundException("Item not found"));
+        User booker = userRepository.findById(bookerId).orElseThrow(() -> new NotFoundException("User not found"));
+        Item item = itemRepository.findById(request.getItemId()).orElseThrow(() -> new NotFoundException("Item not found"));
         if (!item.getAvailable()) {
             throw new NotAvailableItemException("Item is not available");
         }
@@ -58,8 +54,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingDto updateStatus(long userId, long id, boolean approved) {
-        Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Booking not found"));
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new NotFoundException("Booking not found"));
         if (booking.getItem().getOwner().getId() != userId) {
             throw new NoAccessException("Only owner can change status");
         }
@@ -69,8 +64,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto findById(long userId, long bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new NotFoundException("Booking not found"));
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking not found"));
         long ownerId = booking.getItem().getOwner().getId();
         if (booking.getBooker().getId() != userId && ownerId != userId) {
             throw new NoAccessException("No access to booking");
@@ -81,17 +75,16 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Page<BookingDto> findByBooker(long bookerId, State state, Pageable pageable) {
         // проверяем, что пользователь существует
-        userRepository.findById(bookerId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        userRepository.findById(bookerId).orElseThrow(() -> new NotFoundException("User not found"));
         LocalDateTime now = LocalDateTime.now();
         Page<Booking> page = switch (state) {
             case CURRENT -> bookingRepository.findCurrentByBooker(bookerId, now, pageable);
-            case PAST    -> bookingRepository.findByBooker_IdAndEndBefore(bookerId, now, pageable);
-            case FUTURE  -> bookingRepository.findByBooker_IdAndStartAfter(bookerId, now, pageable);
+            case PAST -> bookingRepository.findByBooker_IdAndEndBefore(bookerId, now, pageable);
+            case FUTURE -> bookingRepository.findByBooker_IdAndStartAfter(bookerId, now, pageable);
             case WAITING -> bookingRepository.findByBooker_IdAndStatus(bookerId, Status.WAITING, pageable);
-            case REJECTED-> bookingRepository.findByBooker_IdAndStatus(bookerId, Status.REJECTED, pageable);
-            case ALL     -> bookingRepository.findByBooker_Id(bookerId, pageable);
-            default     -> throw new ParameterNotValidException("Unknown state: " + state);
+            case REJECTED -> bookingRepository.findByBooker_IdAndStatus(bookerId, Status.REJECTED, pageable);
+            case ALL -> bookingRepository.findByBooker_Id(bookerId, pageable);
+            default -> throw new ParameterNotValidException("Unknown state: " + state);
         };
         return page.map(BookingDtoMapper::mapToBookingDto);
     }
@@ -99,17 +92,16 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Page<BookingDto> findByOwner(long ownerId, State state, Pageable pageable) {
         // проверяем, что пользователь существует
-        userRepository.findById(ownerId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        userRepository.findById(ownerId).orElseThrow(() -> new NotFoundException("User not found"));
         LocalDateTime now = LocalDateTime.now();
         Page<Booking> page = switch (state) {
             case CURRENT -> bookingRepository.findCurrentByOwner(ownerId, now, pageable);
-            case PAST    -> bookingRepository.findByItemOwner_IdAndEndBefore(ownerId, now, pageable);
-            case FUTURE  -> bookingRepository.findByItemOwner_IdAndStartAfter(ownerId, now, pageable);
+            case PAST -> bookingRepository.findByItemOwner_IdAndEndBefore(ownerId, now, pageable);
+            case FUTURE -> bookingRepository.findByItemOwner_IdAndStartAfter(ownerId, now, pageable);
             case WAITING -> bookingRepository.findByItemOwner_IdAndStatus(ownerId, Status.WAITING, pageable);
-            case REJECTED-> bookingRepository.findByItemOwner_IdAndStatus(ownerId, Status.REJECTED, pageable);
-            case ALL     -> bookingRepository.findByItemOwner_Id(ownerId, pageable);
-            default     -> throw new ParameterNotValidException("Unknown state: " + state);
+            case REJECTED -> bookingRepository.findByItemOwner_IdAndStatus(ownerId, Status.REJECTED, pageable);
+            case ALL -> bookingRepository.findByItemOwner_Id(ownerId, pageable);
+            default -> throw new ParameterNotValidException("Unknown state: " + state);
         };
         return page.map(BookingDtoMapper::mapToBookingDto);
     }

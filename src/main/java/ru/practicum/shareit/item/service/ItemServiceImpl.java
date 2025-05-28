@@ -32,10 +32,7 @@ public class ItemServiceImpl implements ItemService {
     BookingRepository bookingRepository;
     CommentRepository commentRepository;
 
-    public ItemServiceImpl(ItemRepository itemRepository,
-                           UserService userService,
-                           BookingRepository bookingRepository,
-                           CommentRepository commentRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, UserService userService, BookingRepository bookingRepository, CommentRepository commentRepository) {
         this.itemRepository = itemRepository;
         this.userService = userService;
         this.bookingRepository = bookingRepository;
@@ -48,9 +45,7 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Предмет не найден"));
         List<Booking> bookings = bookingRepository.findByItem_idAndStatus(itemId, Status.WAITING);
         List<Comment> comments = commentRepository.findByItem_id(itemId);
-        ItemDtoBooking itemDtoBooking = ItemDtoMapper.mapToItemDtoBooking(item,
-                bookings,
-                comments);
+        ItemDtoBooking itemDtoBooking = ItemDtoMapper.mapToItemDtoBooking(item, bookings, comments);
         log.info("Получение предмета {} завершено", itemDtoBooking);
         return itemDtoBooking;
     }
@@ -58,9 +53,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDto> getUserItems(long userId) {
         log.info("Получаем все предметы для пользователя id = {}", userId);
-        return itemRepository.findByOwner(UserDtoMapper.mapToUser(userService.getById(userId))).stream()
-                .map(ItemDtoMapper::mapToDto)
-                .toList();
+        return itemRepository.findByOwner(UserDtoMapper.mapToUser(userService.getById(userId))).stream().map(ItemDtoMapper::mapToDto).toList();
     }
 
     @Override
@@ -98,9 +91,7 @@ public class ItemServiceImpl implements ItemService {
             return search;
         }
         log.info("Возвращаем список вещей по запросу {}", text);
-        search = itemRepository.searchItem(text).stream()
-                .map(ItemDtoMapper::mapToDto)
-                .toList();
+        search = itemRepository.searchItem(text).stream().map(ItemDtoMapper::mapToDto).toList();
         return search;
     }
 
