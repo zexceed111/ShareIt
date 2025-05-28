@@ -36,9 +36,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Page<Booking> findByItemOwner_IdAndStatus(long ownerId, Status status, Pageable pageable);
 
     // для getById() — список по item и статусу
-    List<Booking> findByItem_idAndStatus(long item_id, Status status);
+    List<Booking> findByItem_idAndStatus(long itemId, Status status);
 
     // для addComment() — одно бронирование по item и booker
-    Booking findByItem_idAndBooker_id(long item_id, long booker_id);
+    Booking findByItem_idAndBooker_id(long itemId, long bookerId);
 
 }
