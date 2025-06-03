@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.request.dto.RequestCreateDto;
 
 
-
 @Slf4j
 @Validated
 @RequiredArgsConstructor
@@ -21,23 +20,13 @@ public class ItemRequestController {
     private final RequestClient requestClient;
 
     @PostMapping
-    public Object postRequest(@Valid
-                                              @RequestBody
-                                              @NotNull(message = "the field cannot be empty")
-                                              RequestCreateDto requestCreateDto,
-                                              @RequestHeader("X-Sharer-User-Id")
-                                              @NotNull(message = "the field cannot be empty")
-                                              @Positive(message = "user id must be positive")
-                                              Long userId) {
+    public Object postRequest(@Valid @RequestBody @NotNull(message = "the field cannot be empty") RequestCreateDto requestCreateDto, @RequestHeader("X-Sharer-User-Id") @NotNull(message = "the field cannot be empty") @Positive(message = "user id must be positive") Long userId) {
         log.info("");
         return requestClient.postRequest(requestCreateDto, userId);
     }
 
     @GetMapping
-    public Object getRequests(@RequestHeader("X-Sharer-User-Id")
-                                                    @NotNull(message = "the field cannot be empty")
-                                                    @Positive(message = "user id must be positive")
-                                                    Long userId) {
+    public Object getRequests(@RequestHeader("X-Sharer-User-Id") @NotNull(message = "the field cannot be empty") @Positive(message = "user id must be positive") Long userId) {
         log.info("");
         return requestClient.getRequests(userId);
     }
@@ -49,10 +38,7 @@ public class ItemRequestController {
     }
 
     @GetMapping("/{requestId}")
-    public Object getRequestById(@PathVariable
-                                                 @NotNull(message = "the field cannot be empty")
-                                                 @Positive(message = "user id must be positive")
-                                                 Long requestId) {
+    public Object getRequestById(@PathVariable @NotNull(message = "the field cannot be empty") @Positive(message = "user id must be positive") Long requestId) {
         log.info("");
         return requestClient.getRequestById(requestId);
     }
