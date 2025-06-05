@@ -84,7 +84,7 @@ public class BookingRepositoryTest {
 
     @Test
     void findAllByItemsOwnerIdAndEndingBeforeTest() {
-        bookingDataList = bookingRepository.findAllByItemsOwnerIdAndEndingBefore(3,
+        bookingDataList = bookingRepository.findPastBookingsByOwner(3,
                 LocalDateTime.of(2025, 6, 8, 0, 0, 0));
 
         Assertions.assertNotNull(bookingDataList);
