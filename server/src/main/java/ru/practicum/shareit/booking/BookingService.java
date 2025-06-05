@@ -105,7 +105,7 @@ public class BookingService {
                         .map(BookingMapper::toDto)
                         .toList();
             case PAST:
-                return bookingRepository.findAllByItemsOwnerIdAndEndingBefore(owner, LocalDateTime.now()).stream()
+                return bookingRepository.findPastBookingsByOwner(owner, LocalDateTime.now()).stream()
                         .map(BookingMapper::toDto)
                         .toList();
             case FUTURE:
