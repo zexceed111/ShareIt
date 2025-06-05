@@ -58,7 +58,10 @@ public class RequestService {
     }
 
     private Request checkAndGetRequestById(long requestId) {
-        return requestRepository.findById(requestId)
-                .orElseThrow(() -> new NoSuchElementException("Request with id = " + requestId + " not found."));
+        Optional<Request> requestOptional = requestRepository.findById(requestId);
+        if (requestOptional.isEmpty()) {
+            throw new NoSuchElementException("Request with id = " + requestId + " not found.");
+        }
+        return requestOptional.get();
     }
 }

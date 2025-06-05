@@ -36,7 +36,7 @@ public class Item {
    @JoinColumn(name = "next_booking_id")
    @Builder.Default
    Booking nextBooking = null;
-   @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+   @OneToMany(mappedBy = "item", fetch = FetchType.EAGER)
    @Builder.Default
    List<Comment> itemComments = new ArrayList<>();
    @ManyToOne(fetch = FetchType.LAZY)
