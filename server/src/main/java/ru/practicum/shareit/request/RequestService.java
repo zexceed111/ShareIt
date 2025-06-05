@@ -60,6 +60,6 @@ public class RequestService {
 
     private Request checkAndGetRequestById(long requestId) {
         return requestRepository.findById(requestId)
-                .orElseThrow(() -> new NotFoundException("Request with id = " + requestId + " not found."));
+                .orElseThrow(() -> new NoSuchElementException("Request with id = " + requestId + " not found."));
     }
 }
