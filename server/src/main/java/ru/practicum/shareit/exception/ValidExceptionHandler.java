@@ -21,9 +21,9 @@ public class ValidExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(final NoSuchElementException e) {
-        log.error("An exception has occurred.");
-        return new ErrorResponse("NotFound Exception: ", e.getMessage());
+    public ErrorResponse handleNotFoundException(final NotFoundException e) {
+        log.error("NotFoundException occurred: {}", e.getMessage());
+        return new ErrorResponse("Not Found", e.getMessage());
     }
 
     @ExceptionHandler
@@ -31,13 +31,6 @@ public class ValidExceptionHandler {
     public ErrorResponse handleIllegalArgumentException(final IllegalArgumentException e) {
         log.error("An exception has occurred.");
         return new ErrorResponse("Illegal Argument Exception: ", e.getMessage());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleRuntimeException(final RuntimeException e) {
-        log.error("An exception has occurred.");
-        return new ErrorResponse("Runtime Exception: ", e.getMessage());
     }
 
     @ExceptionHandler
