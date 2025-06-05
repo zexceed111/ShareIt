@@ -58,7 +58,7 @@ public class RequestServiceTest {
 
     @Test
     void getRequestByWrongIdTest() {
-        NotFoundException e = assertThrows(NotFoundException.class,
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
                 () -> requestService.getRequestById(100)
                 );
 
