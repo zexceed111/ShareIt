@@ -3,6 +3,7 @@ package ru.practicum.shareit.request;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.request.dto.RequestCreateDto;
 import ru.practicum.shareit.request.dto.RequestDto;
 import ru.practicum.shareit.request.dto.RequestShortDto;
@@ -58,10 +59,7 @@ public class RequestService {
     }
 
     private Request checkAndGetRequestById(long requestId) {
-        Optional<Request> requestOptional = requestRepository.findById(requestId);
-        if (requestOptional.isEmpty()) {
-            throw new NoSuchElementException("Request with id = " + requestId + " not found.");
-        }
-        return requestOptional.get();
+        return requestRepository.findById(requestId)
+                .orElseThrow(() -> new NotFoundException("Request with id = " + requestId + " not found."));
     }
 }
