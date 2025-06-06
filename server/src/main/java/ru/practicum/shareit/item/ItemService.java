@@ -31,7 +31,7 @@ public class ItemService {
     private final BookingRepository bookingRepository;
     private final RequestRepository requestRepository;
 
-    @Transactional
+
     public List<ItemDto> getItemsList(Long userId) {
         checkUserAndGetUserById(userId);
 
@@ -74,7 +74,7 @@ public class ItemService {
                 .toList();
     }
 
-    @Transactional
+
     public ItemDto getItemById(long id, long userId) {
         checkUserAndGetUserById(userId);
         List<CommentShortDto> itemComments = commentRepository.findAllByItemId(id).stream()
@@ -86,6 +86,7 @@ public class ItemService {
         return itemDto;
     }
 
+    @Transactional
     public ItemDto addNewItem(ItemCreateDto itemCreateDto, long userId) {
         User user = checkUserAndGetUserById(userId);
         itemCreateDto.setOwner(user);
@@ -96,6 +97,7 @@ public class ItemService {
         return ItemMapper.toDto(itemRepository.save(item));
     }
 
+    @Transactional
     public ItemDto updateItem(ItemUpdateDto itemUpdateDto, long itemId, long userId) {
         User user = checkUserAndGetUserById(userId);
         Item updatedItem = checkAndGetItemById(itemId);
@@ -124,6 +126,7 @@ public class ItemService {
                 .toList();
     }
 
+    @Transactional
     public CommentDto addNewComment(long itemId, long userId, CommentCreateDto commentCreateDto) {
         Item item = checkAndGetItemById(itemId);
         User user = checkAndGetUserById(userId);
