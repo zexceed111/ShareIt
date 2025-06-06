@@ -2,8 +2,10 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
@@ -170,9 +172,11 @@ public class ItemService {
     }
 
     private void checkWasBooker(long itemId, long userId) {
-        Optional<Booking> bookingOptional = bookingRepository.findByItemIdAndBookerIdAndStatusAndEndingBefore(itemId, userId, BookingStatus.APPROVED, LocalDateTime.now());
+        Optional<Booking> bookingOptional = bookingRepository.findByItemIdAndBookerIdAndStatusAndEndingBefore(
+                itemId, userId, BookingStatus.APPROVED, LocalDateTime.now());
         if (bookingOptional.isEmpty()) {
-            throw new RuntimeException("User with id " + userId + " сannot leave a comment on the item with id " + itemId + ".");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "User with id " + userId + " сannot leave a comment on the item with id " + itemId + ".");
         }
     }
 
